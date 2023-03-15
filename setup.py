@@ -6,5 +6,5 @@ setup(
     packages=find_packages(),
     description="An example package",
     author="Jason Li",
-    install_requires=[],
+    install_requires=["tensorflow", "matplotlib", "numpy"],
 )
