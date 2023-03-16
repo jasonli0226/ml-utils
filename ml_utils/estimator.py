@@ -4,9 +4,41 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 
 
-# Supported Layers: Conv2D, DepthwiseConv2D, SeparableConv2D, Activation, BatchNormalization, InputLayer, Reshape, Add, Maximum,
-#                  Concatenate, Average, pool, Flatten, Global Pooling,
-def net_flops(model: tf.keras.Model, table=False) -> tuple[float, float]:
+__all__ = ["get_flops", "time_per_layer"]
+
+
+def get_flops(model: tf.keras.Model, table=False) -> tuple[float, float]:
+    """
+    Calculates the FLOPS (Floating Point Operations Per Second) and
+        MACC (Multiply-Accumulate Operations) of a TensorFlow Keras model.
+
+    Supported Layers:
+    ---------
+    Conv2D, DepthwiseConv2D, SeparableConv2D, Activation, BatchNormalization, InputLayer,
+        Reshape, Add, Maximum, Concatenate, Average, pool, Flatten, Global Pooling,
+
+    Args:
+    ---------
+        model (tf.keras.Model): TensorFlow Keras model
+        table (bool, optional): If table is True, it prints a formatted table of the FLOPS and MACC values for each layer in the model.
+            Defaults to False.
+
+    Returns:
+    ---------
+        tuple[float, float]: Return the tuple of FLOPS and MACC
+
+    Example:
+    ---------
+    ```
+    import tensorflow as tf
+    from ml_utils.estimator import get_flops, time_per_layer
+
+    model = tf.keras.applications.ResNet50(
+        weights=None, include_top=True, pooling=None, input_shape=(224, 224, 3)
+    )
+    get_flops(model, table=True)
+    ```
+    """
     if table is True:
         print(
             "%25s | %16s | %16s | %16s | %16s | %6s | %6s"
@@ -176,7 +208,34 @@ def net_flops(model: tf.keras.Model, table=False) -> tuple[float, float]:
     return t_flops, t_macc
 
 
-def time_per_layer(model: tf.keras.Model, visualize=False):
+def time_per_layer(
+    model: tf.keras.Model, visualize=False, figure: str = None
+) -> np.ndarray[np.float32]:
+    """
+    Measures the time taken for each layer in the neural network model to process an input of ones.
+
+    Args:
+    ---------
+        model (tf.keras.Model): TensorFlow Keras model
+        visualize (bool, optional): A bar chart of the processing time for each layer. Defaults to False.
+        save_figure (str, optional): Figure name to be saved in local. Defaults to None. No figure to be saved.
+
+    Returns:
+    ---------
+        np.ndarray[np.float32]: Times of layers. NumPy array of dimensions (number of layers x 2).
+
+    Example:
+    ---------
+    ```
+    import tensorflow as tf
+    from ml_utils.estimator import get_flops, time_per_layer
+
+    model = tf.keras.applications.ResNet50(
+        weights=None, include_top=True, pooling=None, input_shape=(224, 224, 3)
+    )
+    time_per_layer(model, visualize=True, figure="example.png")
+    ```
+    """
     times = np.zeros((len(model.layers), 2))
     inp = np.ones(model.input.shape[1:])
 
@@ -198,7 +257,7 @@ def time_per_layer(model: tf.keras.Model, visualize=False):
 
     times[-1, 0] = times[-1, 1]
 
-    if visualize is True:
+    if visualize is True or figure is not None:
         plt.style.use("ggplot")
         x = [model.layers[-i].name for i in range(1, len(model.layers))]
         g = [times[i, 0] for i in range(1, len(times))]
@@ -208,7 +267,9 @@ def time_per_layer(model: tf.keras.Model, visualize=False):
         plt.ylabel("Processing Time")
         plt.title("Processing Time of each Layer")
         plt.xticks(x_pos, x, rotation=45)
-
-        plt.show()
+        if figure is not None:
+            plt.savefig(figure)
+        if visualize is True:
+            plt.show()
 
     return times
