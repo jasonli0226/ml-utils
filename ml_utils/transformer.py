@@ -1,6 +1,6 @@
 import tensorflow as tf
 
-from . import scaled_dot_product_attention
+from .attention import scaled_dot_product_attention
 
 __all__ = ["MultiHeadAttention", "Encoder", "Decoder", "Transformer"]
 

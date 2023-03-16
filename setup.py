@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="example-py-package",
+    name="ml-utils",
     version="0.1",
     packages=find_packages(),
-    description="An example package",
+    description="",
     author="Jason Li",
-    install_requires=["tensorflow", "matplotlib", "numpy"],
+    install_requires=["matplotlib", "numpy"],
 )
