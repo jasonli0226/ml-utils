@@ -56,6 +56,7 @@ def get_flops(model: tf.keras.Model, table=False) -> tuple[float, float]:
 
     t_flops = 0
     t_macc = 0
+    
     # 1G
     factor = 1_000_000_000
 
@@ -205,6 +206,7 @@ def get_flops(model: tf.keras.Model, table=False) -> tuple[float, float]:
     print("Total FLOPs: {:10.8f}".format(t_flops))
     print("Total MACCs: {:10.8f}".format(t_macc))
     print()
+    
     return t_flops, t_macc
 
 

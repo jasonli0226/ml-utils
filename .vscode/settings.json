@@ -1,8 +1,12 @@
 {
     "cSpell.words": [
         "arange",
+        "broadcastable",
         "Depthwise",
+        "dtype",
+        "logits",
         "ndarray",
+        "softmax",
         "xticks"
     ]
 }
