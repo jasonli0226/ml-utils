@@ -1,12 +1,13 @@
 {
-    "cSpell.words": [
-        "arange",
-        "broadcastable",
-        "Depthwise",
-        "dtype",
-        "logits",
-        "ndarray",
-        "softmax",
-        "xticks"
-    ]
+  "cSpell.words": [
+    "arange",
+    "broadcastable",
+    "Depthwise",
+    "dtype",
+    "logits",
+    "ndarray",
+    "ndim",
+    "softmax",
+    "xticks"
+  ]
 }
