@@ -74,7 +74,7 @@ def conv_with_im2col(
         new_w = w
         w_pad = (fw - 1) // 2
         h_pad = (fh - 1) // 2
-        in_mat = np.pad(image, ((h_pad, h_pad), (w_pad, w_pad)))
+        in_mat = np.pad(image, ((h_pad, h_pad), (w_pad, w_pad), (0, 0)))
     else:
         new_h = (h - fh) // 1 + 1
         new_w = (w - fw) // 1 + 1
