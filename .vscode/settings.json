@@ -4,10 +4,12 @@
     "broadcastable",
     "Depthwise",
     "dtype",
+    "gemm",
     "logits",
     "ndarray",
     "ndim",
     "softmax",
+    "strassen",
     "xticks"
   ]
 }
